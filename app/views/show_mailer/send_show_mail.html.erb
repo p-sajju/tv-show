@@ -1,0 +1,11 @@
+Hi <%= @user.email %>,
+
+Your Show is beign to start in 30 min.
+
+Your Show Details :
+
+Channel Name: <%= @show.channel.name %>
+Show Name: <%= @show.name %>
+
+Start At: <%= @show.start_at.strftime("%H:%M %P") %>
+End At: <%= @show.end_at.strftime("%H:%M %P") %>

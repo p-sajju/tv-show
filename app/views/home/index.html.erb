@@ -1,0 +1,119 @@
+
+<div class="row">
+  <h1>
+    Welcome to your fav tv shows
+  </h1>
+  <div class="row">
+    <div class="search-form">
+      <%= form_tag('/',{:method => :get}) do %>
+        <input type="text" name="search">
+        <input type="submit" name="submit" value="Search">
+      <% end %>
+    </div>
+  </div>
+  <% if user_signed_in? %>
+    <% current_user_fav_shows = current_user.user_fav_shows.pluck(:show_id) %>
+    <div class="row">
+      <div class="show-title-head"><h1>All Channles and fav shows list</h1></div>
+      <% if !@channels.blank? %>
+        <% @channels.each_with_index do |channel, i| %>
+          <% current_user_fav_shows = current_user.user_fav_shows.pluck(:show_id) %>
+          <div class="row channel_div">
+            <span>
+              <p><h3>Channel Name: </h3><%= channel.name %></p>
+            </span>
+            <div>
+              <p><h3> Shows Name:</h3> </p>
+              <ul>
+                <% channel.shows.each do |show| %>
+                  <li>
+                    <span>
+                      <%= show.name %>
+                    </span>
+                    <span>
+                      From <%= show.start_at.strftime('%H:%M %P') %> to <%= show.end_at.strftime('%H:%M %P') %>
+                    </span><br><br>
+                    <span>
+                      <% if current_user_fav_shows.include? show.id %>
+                        <span>
+                          <i class="fa fa-star"></i> My Fav
+                        </span>
+                      <% else %>
+                        <%= link_to add_my_fav_path(show.id) do %>
+                          Add my fav
+                        <% end %>
+                      <% end %>
+                    </span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <% if !@shows.blank? %>
+      <% @shows.each_with_index do |show, i| %>
+        <div class="row channel_div">
+          <span>
+            <p><h3>Channel Name: </h3><%= show.channel.name %></p>
+          </span>
+          <div>
+            <p><h3> Shows Name:</h3> </p>
+            <ul>
+              <% show.channel.shows.each do |show| %>
+                <li>
+                  <span>
+                    <%= show.name %>
+                  </span>
+                  <span>
+                    From <%= show.start_at.strftime('%H:%M %P') %> to <%= show.end_at.strftime('%H:%M %P') %>
+                  </span><br><br>
+                  <span>
+                    <% if current_user_fav_shows.include? show.id %>
+                      <span>
+                        <i class="fa fa-star"></i> My Fav
+                      </span>
+                    <% else %>
+                      <%= link_to add_my_fav_path(show.id) do %>
+                        Add my fav
+                      <% end %>
+                    <% end %>
+                  </span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <% end %>
+  <% else %>
+    <% if !@channels.blank? %>
+        <% @channels.each_with_index do |channel, i| %>
+          <div class="row channel_div">
+            <span>
+              <p><h3>Channel Name: </h3><%= channel.name %></p>
+            </span>
+            <div>
+              <p><h3> Shows Name:</h3> </p>
+              <ul>
+                <% channel.shows.each do |show| %>
+                  <li>
+                    <span>
+                      <%= show.name %>
+                    </span>
+                    <span>
+                      From <%= show.start_at.strftime('%H:%M %P') %> to <%= show.end_at.strftime('%H:%M %P') %>
+                    </span><br><br>
+                    <span>
+                      Add to your fav
+                    </span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+  <% end %>
+</div>
